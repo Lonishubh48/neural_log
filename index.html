@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NeuralLog | AI Engineering</title>
+  <style>
+    :root {
+      --primary-blue: #38bdf8;
+      --bg-dark: #020617;
+      --text-main: #e5e7eb;
+      --card-bg: rgba(15, 23, 42, 0.9);
+      --code-bg: #0b1120;
+      --border-color: rgba(56, 191, 248, 0.352);
+    }
+
+    .light-mode {
+      --primary-blue: #22d3ee;
+      --bg-dark: #f8fafc;
+      --text-main: #1e293b;
+      --card-bg: rgba(255, 255, 255, 0.95);
+      --code-bg: #e2e8f0;
+      --border-color: rgba(34, 211, 238, 0.3);
+    }
+
+    * { box-sizing: border-box; transition: background-color 0.3s, color 0.3s, border-color 0.3s; }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', -apple-system, sans-serif;
+      background-color: var(--bg-dark);
+      background-image: 
+        linear-gradient(rgba(2, 14, 23, 0.7), rgba(96, 137, 220, 0.393)),
+        url("bg.png");
+      background-size: cover;
+      background-attachment: fixed;
+      color: var(--text-main);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    #progress-container {
+      position: fixed;
+      top: 25px;
+      right: 25px;
+      width: 60px;
+      height: 60px;
+      z-index: 3000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    #progress-ring { transform: rotate(-90deg); }
+    #progress-ring circle { fill: none; stroke-width: 4; stroke-linecap: round; }
+    .ring-bg { stroke: rgba(56, 189, 248, 0.1); }
+    .ring-bar {
+      stroke: var(--primary-blue);
+      stroke-dasharray: 157; 
+      stroke-dashoffset: 157;
+      transition: stroke-dashoffset 0.1s linear;
+    }
+
+    #progress-text { position: absolute; font-size: 0.7rem; font-weight: bold; color: var(--primary-blue); font-family: monospace; }
+
+    #magnetic-cursor {
+      position: fixed;
+      width: 0; height: 0;
+      border-left: 7px solid transparent;
+      border-right: 7px solid transparent;
+      border-bottom: 18px solid var(--primary-blue);
+      pointer-events: none;
+      z-index: 5000;
+      filter: drop-shadow(0 0 10px var(--primary-blue));
+      transform: translate(-50%, -50%) rotate(-30deg);
+      transition: transform 0.1s ease-out, scale 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    #magnetic-cursor.active {
+      transform: translate(-50%, -50%) rotate(-30deg) scale(1.6);
+      filter: drop-shadow(0 0 15px #fff);
+    }
+
+    .controls { position: fixed; top: 20px; left: 20px; z-index: 2000; display: flex; gap: 10px; }
+
+    button {
+      background: var(--card-bg);
+      border: 1px solid var(--primary-blue);
+      color: var(--text-main);
+      padding: 10px 18px;
+      border-radius: 8px;
+      cursor: none;
+      backdrop-filter: blur(10px);
+      font-weight: 600;
+      font-size: 0.8rem;
+      letter-spacing: 1px;
+    }
+
+    #sidebar {
+      position: fixed;
+      left: -320px;
+      top: 0;
+      width: 320px;
+      height: 100%;
+      background: var(--card-bg);
+      backdrop-filter: blur(25px);
+      border-right: 1px solid var(--primary-blue);
+      padding: 5rem 2rem;
+      z-index: 1500;
+      transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    #sidebar.open { left: 0; }
+
+    .nav-item {
+      padding: 1.2rem;
+      cursor: none;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+      transition: 0.2s;
+      color: #94a3b8;
+    }
+
+    .nav-item:hover { background: rgba(56, 189, 248, 0.1); color: white; }
+    .nav-item.active-nav-item { border: 1px solid var(--primary-blue); background: rgba(56, 189, 248, 0.15); color: white; }
+
+    #tensorCanvas {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      z-index: -1;
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    main { max-width: 850px; margin: 0 auto; padding: 0 1.5rem; }
+    .content-page { display: none; padding-top: 6rem; padding-bottom: 5rem; animation: fadeIn 0.6s ease; }
+    .content-page.active { display: block; }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    pre { background: var(--code-bg); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border-color); overflow-x: auto; }
+    code { color: #818cf8; }
+
+    .newsletter { margin-top: 4rem; padding: 2.5rem; background: rgba(56, 189, 248, 0.05); border: 1px dashed var(--primary-blue); border-radius: 20px; text-align: center; }
+    input[type="email"] { padding: 12px; border-radius: 6px; border: 1px solid var(--primary-blue); background: transparent; color: var(--text-main); width: 260px; margin-right: 10px; }
+
+    @media (max-width: 768px) { .controls { top: 10px; left: 10px; } }
+  </style>
+</head>
+<body>
+
+  <canvas id="tensorCanvas"></canvas>
+  <div id="magnetic-cursor"></div>
+
+  <div id="progress-container">
+    <svg id="progress-ring" width="60" height="60">
+      <circle class="ring-bg" cx="30" cy="30" r="25"></circle>
+      <circle class="ring-bar" id="ring-bar" cx="30" cy="30" r="25"></circle>
+    </svg>
+    <div id="progress-text">0%</div>
+  </div>
+
+  <div class="controls">
+    <button onclick="toggleSidebar()">☰ MENU</button>
+    <button onclick="toggleTheme()">🌓 MODE</button>
+  </div>
+
+  <nav id="sidebar">
+    <h2 style="letter-spacing: 2px;">NEURALLOG</h2>
+    <div class="nav-item active-nav-item" onclick="selectContent('home', this)">🏠 Home / Dashboard</div>
+    <div class="nav-item" onclick="selectContent('mcp', this)">Model Context Protocol</div>
+    <div class="nav-item" onclick="selectContent('cv', this)">Classical CV</div>
+  </nav>
+
+  <main>
+      <div id="home" class="content-page active">
+          <div class="hero-text" style="text-align: center; padding-top: 50px;">
+              <h1 style="font-size: 4rem; background: linear-gradient(to bottom, #fff, var(--primary-blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">NeuralLog</h1>
+              <p style="letter-spacing: 5px; color: var(--primary-blue); font-weight: bold;">TENSOR PULSE ACTIVATED</p>
+              <p style="opacity: 0.7;">Scroll down to see the progress ring in action.</p>
+          </div>
+          <div style="height: 1000px;"></div> 
+          <div class="newsletter">
+              <h3>Join the Network</h3>
+              <input type="email" placeholder="ai-engineer@domain.com">
+              <button type="submit" style="background: var(--primary-blue); color: #000; font-weight: bold;">SUBSCRIBE</button>
+          </div>
+      </div>
+
+      <div id="mcp" class="content-page">
+          <h1 id="mcp-title"></h1>
+          
+          <section>
+              <h3>What is MCP?</h3>
+              <p id="mcp-what"></p>
+              <p id="mcp-main-goal-text" style="font-weight: bold; margin-bottom: 5px;"></p>
+              <ul id="mcp-specifies" style="line-height: 1.6; margin-top: 10px; border-left: 2px solid var(--primary-blue); padding-left: 20px; list-style-type: none;">
+              </ul>
+          </section>
+
+          <section>
+              <h3>Why do we need MCP?</h3>
+              <p id="mcp-why-problem"></p>
+
+              <p id="mcp-why-context-intro"></p>
+              <ul id="mcp-why-context-list" style="line-height: 1.8; margin-bottom: 20px;"></ul>
+
+              <div style="background: rgba(56, 189, 248, 0.05); border-left: 3px solid var(--primary-blue); padding: 20px; border-radius: 0 12px 12px 0;">
+                 <p id="mcp-why-solution" style="margin: 0; line-height: 1.6;"></p>
+              </div>
+          </section>
+
+          <section>
+              <h3>Architecture</h3>
+              <div id="mcp-arch-container" style="background: rgba(255,255,255,0.05); padding: 30px; border-radius: 12px; text-align: center; margin: 20px 0; border: 1px solid var(--border-color);">
+                  <img id="mcp-arch-img" src="" alt="MCP Architecture Diagram" style="max-width: 100%; height: auto; display: none; margin: 0 auto;">
+              </div>
+          </section>
+
+          <section>
+              <h3>Key Components</h3>
+              <table style="width: 100%; border-collapse: collapse; margin: 20px 0; background: rgba(56, 189, 248, 0.03);">
+                  <thead>
+                      <tr style="border-bottom: 2px solid var(--primary-blue); color: var(--primary-blue); text-align: left;">
+                          <th style="padding: 12px;">Component</th>
+                          <th style="padding: 12px;">Role</th>
+                      </tr>
+                  </thead>
+                  <tbody id="mcp-components-body"></tbody>
+              </table>
+          </section>
+          <section>
+              <h3>MCP Workflow</h3>
+              <div id="mcp-workflow-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-top: 20px;">
+                  </div>
+          </section>          
+
+          <section>
+              <h3>When to use?</h3>
+              <ul id="mcp-when" style="line-height: 1.8;"></ul>
+          </section>
+
+          <h3>Implementation Example</h3>
+          <pre><code id="mcp-code"></code></pre>
+      </div>
+
+      <div id="cv" class="content-page">
+          <h1 id="cv-title"></h1>
+          <p id="cv-description"></p>
+          <pre><code id="cv-code"></code></pre>
+          <div style="height: 800px;"></div>
+      </div>
+  </main>
+
+  <script>
+    const pageData = {
+        mcp: {
+            title: "Model Context Protocol (MCP)",
+            image: "MCP1.svg",
+            what: "MCP is an open-source standard introduced by Anthropic that allows AI applications or LLMs to securely connect with external tools, data sources, and systems. You can think of MCP as a common language that AI applications and tools use to communicate. Because it follows a well-defined protocol, any MCP-compatible tool can work with any MCP-enabled AI model without custom integration.",
+
+            mainGoalText: "The main goal of MCP is to help AI systems understand:",
+            specifies: [
+                "How a model initializes its connection with servers providing the context.",
+                "How messages are exchanged between the client (model) and servers (context providers).",
+                "How structured data (resources, prompts, tools) are discovered, updated, and used during a session."
+            ],
+
+            whyProblem: "Today’s Large Language Models (LLMs) are powerful, but they have a major limitation: they only know what they were trained on, up to a fixed cutoff date. They cannot access real-time information such as live data, databases, files, or the web on their own.",
+
+            whyContext: "To make models more useful, developers provide context—extra information that helps the model generate relevant and accurate responses via techniques like:",
+            whyContextList: [
+                "Retrieval-Augmented Generation (RAG)",
+                "Fine-tuning",
+                "Tool/Function calling to interact with external systems"
+            ],
+
+            whySolution: "The problem is that these solutions are often platform-specific. A tool built for one AI provider may not work with another, forcing developers to rewrite the same logic multiple times. **MCP solves this by standardizing how context is shared.** It provides a universal way for models to access tools, data sources, APIs, and live systems, making integrations reusable, model-agnostic, and future-proof.",
+
+            components: [
+                { name: "LLM Gateway", role: "The 'Brains' (e.g., GPT-4o, Claude 3.5, Gemini, Groq). They process the prompt and decide which tools to call via the protocol." },
+                { name: "MCP Client", role: "The Interface (e.g., Claude Desktop, LibreChat, Custom Chatbots). It acts as the Host that maintains the connection to servers." },
+                { name: "MCP Server", role: "The Connector. Lightweight programs that expose specific tools or data (like Google Drive, GitHub, or SQL) to the Client." },
+                { name: "Context", role: "The actual Source. Your private files, live databases, or secure web APIs that the AI needs to read." }
+            ],
+            workflow: [
+                { step: "1. Prompt", desc: "User interacts with the MCP Client (Host) with a request." },
+                { step: "2. Reasoning", desc: "The Client sends the query to the LLM Gateway (The Brain) to determine what tools are needed." },
+                { step: "3. Retrieval", desc: "The Client calls the MCP Server to fetch real-time data from Context Providers (Notion, Slack, etc.)." },
+                { step: "4. Response", desc: "The LLM processes the retrieved context and sends the final answer back to the User." }
+            ],
+            when: [
+                "When building local AI agents that need to read your files.",
+                "When connecting an LLM to a private SQL database.",
+                "When you want to switch between different AI models without rewriting your tool integrations.",
+                "In enterprise environments where data security and context isolation are critical."
+            ],
+            code: `# Simple MCP Calculator Server\nfrom mcp.server.fastmcp import FastMCP\n\n# Initialize the Server\nmcp = FastMCP("Calculator")\n\n# Define a tool for the AI\n@mcp.tool()\ndef add_numbers(a: int, b: int) -> int:\n    """Adds two numbers together."""\n    return a + b\n\nif __name__ == "__main__":\n    mcp.run()`
+        },
+
+        cv: { 
+            title: "Classical CV",
+            description: "Traditional image processing using mathematical operations without deep learning.",
+            code: "// detectEdges implementation\nvoid detectEdges(Image& input) { ... }"
+        }
+    };
+
+
+    // --- Magnetic Cursor ---
+    const magneticCursor = document.getElementById('magnetic-cursor');
+    document.addEventListener('mousemove', (e) => {
+        magneticCursor.style.left = `${e.clientX}px`;
+        magneticCursor.style.top = `${e.clientY}px`;
+        const target = e.target;
+        if (target.tagName === 'BUTTON' || target.classList.contains('nav-item') || target.tagName === 'INPUT') {
+            magneticCursor.classList.add('active');
+        } else {
+            magneticCursor.classList.remove('active');
+        }
+    });
+
+    // --- Tensor Pulse ---
+    const canvas = document.getElementById('tensorCanvas');
+    const ctx = canvas.getContext('2d');
+    let width, height, rows, cols;
+    const spacing = 35;
+    let mouse = { x: -1000, y: -1000 };
+
+    function initCanvas() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+      cols = Math.floor(width / spacing);
+      rows = Math.floor(height / spacing);
+    }
+    window.addEventListener('mousemove', e => { mouse.x = e.x; mouse.y = e.y; });
+    window.addEventListener('resize', initCanvas);
+    initCanvas();
+
+    function draw() {
+      ctx.clearRect(0, 0, width, height);
+      for (let i = 0; i < cols; i++) {
+        for (let j = 0; j < rows; j++) {
+          let x = i * spacing + spacing / 2;
+          let y = j * spacing + spacing / 2;
+          let dist = Math.sqrt((x - mouse.x)**2 + (y - mouse.y)**2);
+          let force = Math.max(0, (150 - dist) / 150);
+          let ripple = Math.sin(dist / 25 - Date.now() / 300) * 4;
+          let finalX = x + (mouse.x - x) * force * 0.2;
+          let finalY = y + (mouse.y - y) * force * 0.2 + ripple;
+          ctx.fillStyle = force > 0 ? '#38bdf8' : 'rgba(56, 189, 248, 0.2)'; 
+          ctx.beginPath();
+          ctx.arc(finalX, finalY, 1.5 + force * 2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+      requestAnimationFrame(draw);
+    }
+    draw();
+
+    // --- Navigation ---
+    function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
+    function toggleTheme() { document.body.classList.toggle('light-mode'); }
+
+    function selectContent(id, element) {
+        document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active-nav-item'));
+        if (element) element.classList.add('active-nav-item');
+        document.querySelectorAll('.content-page').forEach(p => p.classList.remove('active'));
+        
+        const activePage = document.getElementById(id);
+        activePage.classList.add('active');
+
+        const data = pageData[id];
+        if (data) {
+            const titleEl = document.getElementById(`${id}-title`);
+            const codeEl = document.getElementById(`${id}-code`);
+            if (titleEl) titleEl.textContent = data.title;
+            if (codeEl) codeEl.textContent = data.code;
+
+            if (id === 'mcp') {
+                document.getElementById('mcp-what').textContent = data.what;
+                document.getElementById('mcp-main-goal-text').textContent = data.mainGoalText;
+                
+                const specifiesList = document.getElementById('mcp-specifies');
+                specifiesList.innerHTML = data.specifies.map(item => `
+                    <li style="margin-bottom: 10px;">
+                        <span style="color: var(--primary-blue);">▹</span> ${item}
+                    </li>
+                `).join('');
+
+                // Updated Why Section Logic
+                document.getElementById('mcp-why-problem').textContent = data.whyProblem;
+                document.getElementById('mcp-why-context-intro').textContent = data.whyContext;
+                document.getElementById('mcp-why-context-list').innerHTML = data.whyContextList.map(item => `
+                    <li><strong>${item}</strong></li>
+                `).join('');
+                document.getElementById('mcp-why-solution').innerHTML = data.whySolution;
+                
+                const archImg = document.getElementById('mcp-arch-img');
+                archImg.src = data.image;
+                archImg.style.display = 'block';
+
+                document.getElementById('mcp-components-body').innerHTML = data.components.map(c => `
+                    <tr style="border-bottom: 1px solid rgba(56, 189, 248, 0.1);">
+                        <td style="padding: 12px; font-weight: bold; color: var(--primary-blue);">${c.name}</td>
+                        <td style="padding: 12px; opacity: 0.9;">${c.role}</td>
+                    </tr>
+                `).join('');
+                const workflowContainer = document.getElementById('mcp-workflow-container');
+                workflowContainer.innerHTML = data.workflow.map(item => `
+                    <div style="background: rgba(56, 189, 248, 0.05); padding: 15px; border-radius: 10px; border: 1px solid var(--border-color);">
+                        <h4 style="color: var(--primary-blue); margin-top: 0;">${item.step}</h4>
+                        <p style="font-size: 0.85rem; opacity: 0.9; line-height: 1.4; margin-bottom: 0;">${item.desc}</p>
+                    </div>
+                `).join('');
+
+                document.getElementById('mcp-when').innerHTML = data.when.map(item => `<li>${item}</li>`).join('');
+            }
+
+            if (id === 'cv') {
+                document.getElementById('cv-description').textContent = data.description;
+            }
+        }
+
+        toggleSidebar();
+        window.scrollTo(0, 0);
+    }
+
+    const ringBar = document.getElementById('ring-bar');
+    const progressText = document.getElementById('progress-text');
+    const circumference = 2 * Math.PI * 25;
+
+    window.onscroll = function() {
+      let docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      let scrolled = (document.documentElement.scrollTop / docHeight);
+      let offset = circumference - (scrolled * circumference);
+      ringBar.style.strokeDashoffset = offset;
+      progressText.innerText = Math.round(scrolled * 100) + "%";
+    };
+  </script>
+</body>
+</html>
