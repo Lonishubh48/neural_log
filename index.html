@@ -329,13 +329,62 @@
               <button class="tab-btn" onclick="showTab('cv', 'filtering')">Filtering</button>
           </div>
           <div id="cv-basics" class="tab-content active">
-              <p>Computer vision is a field of AI that trains computers to interpret and understand visual information from the world. Classical computer vision relies on traditional algorithms and mathematical operations rather than deep learning.</p>
-              <h3>Key Concepts</h3>
-              <ul>
-                  <li><strong>Image Processing</strong>: Manipulating images using mathematical operations</li>
-                  <li><strong>Feature Extraction</strong>: Identifying important characteristics in images</li>
-                  <li><strong>Pattern Recognition</strong>: Classifying objects based on learned patterns</li>
+              <h3>What is Computer Vision?</h3>
+              <p>Computer vision is a field of artificial intelligence that enables machines to interpret, analyze, and pull meaningful data from images and videos, replicating human sight and cognitive abilities. While modern computer vision heavily relies on deep learning and neural networks, classical computer vision uses traditional algorithms and mathematical operations.</p>
+
+              <h3>How Computer Vision Works</h3>
+              <h4>Core Steps in Image Analysis</h4>
+              <ol style="line-height: 1.8; margin-bottom: 20px;">
+                  <li><strong>Capture the image:</strong> Devices like cameras, scanners, or sensors record visual data to be analyzed by algorithms.</li>
+                  <li><strong>Pre-process the image:</strong> Apply techniques like noise reduction, contrast enhancement, and geometric transformations to prepare the image for analysis.</li>
+                  <li><strong>Feature extraction:</strong> Identify important characteristics such as edges, corners, textures, and shapes using mathematical operations.</li>
+                  <li><strong>Analysis and interpretation:</strong> Apply algorithms to recognize patterns, classify objects, or detect specific features based on the extracted information.</li>
+                  <li><strong>Output results:</strong> Generate insights, classifications, or measurements based on the analysis.</li>
+              </ol>
+
+              <h3>Key Concepts in Classical Computer Vision</h3>
+              <ul style="line-height: 1.8;">
+                  <li><strong>Image Processing:</strong> Manipulating images using mathematical operations like filtering, thresholding, and morphological operations.</li>
+                  <li><strong>Feature Extraction:</strong> Identifying important characteristics in images using techniques like edge detection, corner detection, and texture analysis.</li>
+                  <li><strong>Pattern Recognition:</strong> Classifying objects or patterns based on learned characteristics using statistical methods and machine learning algorithms.</li>
+                  <li><strong>Image Segmentation:</strong> Dividing an image into meaningful regions or objects for further analysis.</li>
+                  <li><strong>Object Detection and Tracking:</strong> Locating and following objects across frames in video sequences.</li>
               </ul>
+
+              <h3>Real-World Applications</h3>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-top: 20px;">
+                  <div style="background: var(--card-bg); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color);">
+                      <h4 style="color: var(--primary-blue); margin-bottom: 10px;">Medical Imaging</h4>
+                      <p style="font-size: 0.9rem;">Analyzing X-rays, MRIs, and CT scans for disease detection and diagnosis.</p>
+                  </div>
+                  <div style="background: var(--card-bg); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color);">
+                      <h4 style="color: var(--primary-blue); margin-bottom: 10px;">Quality Control</h4>
+                      <p style="font-size: 0.9rem;">Inspecting products on assembly lines for defects and ensuring quality standards.</p>
+                  </div>
+                  <div style="background: var(--card-bg); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color);">
+                      <h4 style="color: var(--primary-blue); margin-bottom: 10px;">Document Processing</h4>
+                      <p style="font-size: 0.9rem;">Optical character recognition (OCR) for digitizing printed and handwritten text.</p>
+                  </div>
+                  <div style="background: var(--card-bg); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color);">
+                      <h4 style="color: var(--primary-blue); margin-bottom: 10px;">Security & Surveillance</h4>
+                      <p style="font-size: 0.9rem;">Monitoring and analyzing security footage for threat detection and access control.</p>
+                  </div>
+              </div>
+
+              <h3>Benefits of Classical Computer Vision</h3>
+              <ul style="line-height: 1.8;">
+                  <li><strong>Computational Efficiency:</strong> Traditional algorithms are often faster and require less computational resources than deep learning approaches.</li>
+                  <li><strong>Interpretability:</strong> Mathematical operations and rule-based systems are easier to understand and debug.</li>
+                  <li><strong>Real-time Processing:</strong> Well-suited for applications requiring immediate analysis and response.</li>
+                  <li><strong>Resource Constraints:</strong> Can run effectively on embedded systems and devices with limited processing power.</li>
+                  <li><strong>Domain Expertise:</strong> Leverages established mathematical and signal processing knowledge.</li>
+              </ul>
+
+              <div style="background: rgba(56, 189, 248, 0.05); border-left: 3px solid var(--primary-blue); padding: 20px; border-radius: 0 12px 12px 0; margin-top: 20px;">
+                  <p style="margin: 0; line-height: 1.6;">
+                      <strong>Note:</strong> While classical computer vision techniques form the foundation of image processing, modern applications increasingly combine these traditional methods with deep learning approaches for enhanced accuracy and performance. The choice between classical and modern techniques depends on factors like computational resources, real-time requirements, and the complexity of the visual recognition task.
+                  </p>
+              </div>
           </div>
           <div id="cv-edge" class="tab-content">
               <h3>Edge Detection Techniques</h3>
@@ -388,8 +437,207 @@ void gaussianBlur(Image& input, Image& output, float sigma) {
 
       <div id="deep" class="content-page">
           <h1 id="deep-title">Deep Learning</h1>
-          <p>Deep learning uses multi-layered neural networks to solve complex problems in vision, language, and decision making.</p>
-          <p>Coming soon: Convolutional Neural Networks, Recurrent Neural Networks, Transformers...</p>
+          <p>Deep learning uses multi-layered neural networks to solve complex problems in vision, language, and decision making. It's like teaching a computer to think like a human brain by learning from vast amounts of data.</p>
+          <div class="tab-nav">
+              <button class="tab-btn active" onclick="showTab('deep', 'basics')">What is Deep Learning?</button>
+              <button class="tab-btn" onclick="showTab('deep', 'how-it-works')">How It Works</button>
+              <button class="tab-btn" onclick="showTab('deep', 'training')">Training Process</button>
+              <button class="tab-btn" onclick="showTab('deep', 'models')">Types of Models</button>
+              <button class="tab-btn" onclick="showTab('deep', 'applications')">Applications</button>
+          </div>
+          <div id="deep-basics" class="tab-content active">
+              <h3>What is Deep Learning?</h3>
+              <p>Deep learning is a subset of machine learning that uses artificial neural networks with multiple layers to model complex patterns in data. Think of it as a sophisticated pattern recognition system inspired by the human brain's neural structure.</p>
+
+              <div style="background: rgba(56, 189, 248, 0.05); border-left: 3px solid var(--primary-blue); padding: 20px; border-radius: 0 12px 12px 0; margin: 20px 0;">
+                  <h4 style="color: var(--primary-blue); margin-top: 0;"> The Brain Analogy</h4>
+                  <p style="margin: 0; line-height: 1.6;">
+                      Imagine your brain as a vast network of neurons connected by synapses. Each neuron receives signals from others, processes them, and passes the result along. Deep learning mimics this: artificial neurons (nodes) in layers receive inputs, apply mathematical transformations, and produce outputs that feed into the next layer.
+                  </p>
+              </div>
+
+              <h3>Key Characteristics</h3>
+              <ul style="line-height: 1.8;">
+                  <li><strong>Multi-layered Architecture:</strong> Unlike simple neural networks, deep learning uses many hidden layers between input and output.</li>
+                  <li><strong>Feature Learning:</strong> Automatically discovers relevant features from raw data without manual engineering.</li>
+                  <li><strong>Scalability:</strong> Performance improves with more data and computational power.</li>
+                  <li><strong>Non-linear Processing:</strong> Can model complex, non-linear relationships in data.</li>
+              </ul>
+
+              <h3>Why "Deep"?</h3>
+              <p>The term "deep" refers to the depth of the neural network - the number of layers between input and output. While traditional neural networks might have 2-3 layers, deep networks often have dozens or hundreds of layers, allowing them to learn hierarchical representations of data.</p>
+
+              <div style="text-align: center; margin: 30px 0;">
+              <div style="background: var(--card-bg); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); display: inline-block;">
+                <img src="neural-network-diagram.gif" alt="Neural Network Architecture Diagram" style="max-width: 100%; height: auto;">
+                <p style="margin: 10px 0 0 0; font-size: 0.9rem;">Visual representation of a deep neural network with hidden layers</p>
+              </div>
+              </div>
+          </div>
+
+          <div id="deep-how-it-works" class="tab-content">
+              <h3>How Deep Learning Works</h3>
+              <h4>The Building Blocks</h4>
+              <ol style="line-height: 1.8; margin-bottom: 20px;">
+                  <li><strong>Neurons (Nodes):</strong> Individual processing units that receive inputs, apply weights, and produce outputs through activation functions.</li>
+                  <li><strong>Layers:</strong> Organized groups of neurons - input layer receives data, hidden layers process it, output layer produces results.</li>
+                  <li><strong>Weights & Biases:</strong> Adjustable parameters that determine the strength of connections between neurons.</li>
+                  <li><strong>Activation Functions:</strong> Mathematical functions that introduce non-linearity (ReLU, sigmoid, tanh).</li>
+                  <li><strong>Loss Function:</strong> Measures how well the network's predictions match the desired outputs.</li>
+              </ol>
+
+              <h3>Forward Propagation</h3>
+              <p>Data flows from input to output through the network:</p>
+              <div style="background: var(--code-bg); padding: 15px; border-radius: 8px; margin: 15px 0; font-family: 'Courier New', monospace; font-size: 0.9rem;">
+                  Input Data → Layer 1 → Layer 2 → ... → Layer N → Output Prediction
+              </div>
+              <p>Each neuron calculates: <code>output = activation(weighted_sum + bias)</code></p>
+
+              <h3>The Power of Depth</h3>
+              <div style="background: rgba(56, 189, 248, 0.05); border-left: 3px solid var(--primary-blue); padding: 20px; border-radius: 0 12px 12px 0; margin: 20px 0;">
+                  <h4 style="color: var(--primary-blue); margin-top: 0;"> Hierarchical Learning</h4>
+                  <p style="margin: 0; line-height: 1.6;">
+                      Early layers learn simple features (edges, textures), middle layers combine them into patterns (shapes, objects), and later layers recognize complex concepts. This hierarchical learning is what makes deep learning so powerful for tasks like image recognition.
+                  </p>
+              </div>
+
+              <div style="text-align: center; margin: 30px 0;">
+                  <div style="background: var(--card-bg); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); display: inline-block;">
+                      <p style="margin: 0; font-style: italic; color: var(--primary-blue);"> [Image: Forward Propagation Flow]</p>
+                      <p style="margin: 10px 0 0 0; font-size: 0.9rem;">Data flowing through a neural network during forward propagation</p>
+                  </div>
+              </div>
+          </div>
+
+          <div id="deep-training" class="tab-content">
+              <h3>The Training Process</h3>
+              <p>Training teaches the network to make accurate predictions through an iterative optimization process.</p>
+
+              <h4>Backpropagation Algorithm</h4>
+              <p>The key innovation that made deep learning possible:</p>
+              <ol style="line-height: 1.8;">
+                  <li><strong>Forward Pass:</strong> Input data flows through the network to generate predictions.</li>
+                  <li><strong>Calculate Loss:</strong> Compare predictions with correct answers using a loss function.</li>
+                  <li><strong>Backward Pass:</strong> Propagate the error backward through the network to calculate gradients.</li>
+                  <li><strong>Update Weights:</strong> Use gradient descent to adjust weights and biases to reduce error.</li>
+                  <li><strong>Repeat:</strong> Iterate until the network achieves acceptable performance.</li>
+              </ol>
+
+              <h3>Gradient Descent</h3>
+              <div style="background: rgba(56, 189, 248, 0.05); border-left: 3px solid var(--primary-blue); padding: 20px; border-radius: 0 12px 12px 0; margin: 20px 0;">
+                  <h4 style="color: var(--primary-blue); margin-top: 0;">Mountain Climbing Analogy</h4>
+                  <p style="margin: 0; line-height: 1.6;">
+                      Imagine you're trying to reach the lowest point in a mountainous landscape (the minimum loss). You can only see the slope at your current position. Gradient descent tells you which direction to step to go downhill fastest. The learning rate determines how big each step is.
+                  </p>
+              </div>
+
+              <h3>Challenges in Training</h3>
+              <ul style="line-height: 1.8;">
+                  <li><strong>Vanishing Gradients:</strong> Gradients become too small for effective learning in deep networks.</li>
+                  <li><strong>Overfitting:</strong> Network memorizes training data instead of learning general patterns.</li>
+                  <li><strong>Computational Cost:</strong> Training large networks requires significant computing resources.</li>
+                  <li><strong>Data Requirements:</strong> Deep learning typically needs large amounts of labeled training data.</li>
+              </ul>
+
+              <div style="text-align: center; margin: 30px 0;">
+                  <div style="background: var(--card-bg); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); display: inline-block;">
+                      <p style="margin: 0; font-style: italic; color: var(--primary-blue);">📸 [Image: Loss Function Optimization]</p>
+                      <p style="margin: 10px 0 0 0; font-size: 0.9rem;">Visualization of gradient descent finding the optimal weights</p>
+                  </div>
+              </div>
+          </div>
+
+          <div id="deep-models" class="tab-content">
+              <h3>Types of Deep Learning Models</h3>
+              <p>Different architectures are optimized for different types of data and tasks.</p>
+
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 20px;">
+                  <div style="background: var(--card-bg); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color);">
+                      <h4 style="color: var(--primary-blue); margin-bottom: 10px;">Convolutional Neural Networks (CNNs)</h4>
+                      <p style="font-size: 0.9rem;">Designed for image and spatial data. Use convolutional filters to detect patterns like edges, textures, and shapes. Excellent for computer vision tasks.</p>
+                      <p style="font-size: 0.8rem; margin-top: 10px;"><strong>Applications:</strong> Image classification, object detection, medical imaging</p>
+                  </div>
+                  <div style="background: var(--card-bg); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color);">
+                      <h4 style="color: var(--primary-blue); margin-bottom: 10px;">Recurrent Neural Networks (RNNs)</h4>
+                      <p style="font-size: 0.9rem;">Process sequential data by maintaining an internal memory of previous inputs. Can handle variable-length sequences and temporal dependencies.</p>
+                      <p style="font-size: 0.8rem; margin-top: 10px;"><strong>Applications:</strong> Language modeling, time series prediction, speech recognition</p>
+                  </div>
+                  <div style="background: var(--card-bg); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color);">
+                      <h4 style="color: var(--primary-blue); margin-bottom: 10px;">Transformer Models</h4>
+                      <p style="font-size: 0.9rem;">Use attention mechanisms to process entire sequences at once. Revolutionized natural language processing and enabled large language models.</p>
+                      <p style="font-size: 0.8rem; margin-top: 10px;"><strong>Applications:</strong> Machine translation, text generation, code completion</p>
+                  </div>
+                  <div style="background: var(--card-bg); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color);">
+                      <h4 style="color: var(--primary-blue); margin-bottom: 10px;">Autoencoders</h4>
+                      <p style="font-size: 0.9rem;">Learn efficient data representations by compressing and reconstructing input data. Used for dimensionality reduction and generative tasks.</p>
+                      <p style="font-size: 0.8rem; margin-top: 10px;"><strong>Applications:</strong> Data compression, anomaly detection, image generation</p>
+                  </div>
+                  <div style="background: var(--card-bg); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color);">
+                      <h4 style="color: var(--primary-blue); margin-bottom: 10px;">Generative Adversarial Networks (GANs)</h4>
+                      <p style="font-size: 0.9rem;">Consist of two competing networks: a generator that creates fake data and a discriminator that tries to distinguish real from fake.</p>
+                      <p style="font-size: 0.8rem; margin-top: 10px;"><strong>Applications:</strong> Image synthesis, style transfer, data augmentation</p>
+                  </div>
+                  <div style="background: var(--card-bg); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color);">
+                      <h4 style="color: var(--primary-blue); margin-bottom: 10px;">Graph Neural Networks (GNNs)</h4>
+                      <p style="font-size: 0.9rem;">Process data structured as graphs, capturing relationships between entities. Useful for social networks, molecular structures, and recommendation systems.</p>
+                      <p style="font-size: 0.8rem; margin-top: 10px;"><strong>Applications:</strong> Social network analysis, drug discovery, traffic prediction</p>
+                  </div>
+              </div>
+
+              <div style="text-align: center; margin: 30px 0;">
+                  <div style="background: var(--card-bg); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); display: inline-block;">
+                      <p style="margin: 0; font-style: italic; color: var(--primary-blue);">📸 [Image: Different Neural Network Architectures]</p>
+                      <p style="margin: 10px 0 0 0; font-size: 0.9rem;">Comparison of various deep learning model architectures</p>
+                  </div>
+              </div>
+          </div>
+
+          <div id="deep-applications" class="tab-content">
+              <h3>Real-World Applications</h3>
+              <p>Deep learning powers many modern AI applications across diverse domains.</p>
+
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-top: 20px;">
+                  <div style="background: var(--card-bg); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color);">
+                      <h4 style="color: var(--primary-blue); margin-bottom: 10px;">Computer Vision</h4>
+                      <p style="font-size: 0.9rem;">Image classification, object detection, facial recognition, autonomous vehicles, medical image analysis.</p>
+                  </div>
+                  <div style="background: var(--card-bg); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color);">
+                      <h4 style="color: var(--primary-blue); margin-bottom: 10px;">Natural Language Processing</h4>
+                      <p style="font-size: 0.9rem;">Machine translation, sentiment analysis, chatbots, text summarization, content generation.</p>
+                  </div>
+                  <div style="background: var(--card-bg); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color);">
+                      <h4 style="color: var(--primary-blue); margin-bottom: 10px;">Speech Recognition</h4>
+                      <p style="font-size: 0.9rem;">Voice assistants, transcription services, speaker identification, language learning applications.</p>
+                  </div>
+                  <div style="background: var(--card-bg); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color);">
+                      <h4 style="color: var(--primary-blue); margin-bottom: 10px;">Healthcare</h4>
+                      <p style="font-size: 0.9rem;">Disease diagnosis, drug discovery, personalized medicine, medical image analysis, genomics.</p>
+                  </div>
+                  <div style="background: var(--card-bg); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color);">
+                      <h4 style="color: var(--primary-blue); margin-bottom: 10px;">Finance</h4>
+                      <p style="font-size: 0.9rem;">Fraud detection, algorithmic trading, credit scoring, risk assessment, customer service chatbots.</p>
+                  </div>
+                  <div style="background: var(--card-bg); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color);">
+                      <h4 style="color: var(--primary-blue); margin-bottom: 10px;">Autonomous Systems</h4>
+                      <p style="font-size: 0.9rem;">Self-driving cars, robotics, drone navigation, industrial automation, smart manufacturing.</p>
+                  </div>
+              </div>
+
+              <h3>Emerging Applications</h3>
+              <ul style="line-height: 1.8;">
+                  <li><strong>Climate Modeling:</strong> Predicting weather patterns and climate change impacts.</li>
+                  <li><strong>Drug Discovery:</strong> Accelerating pharmaceutical research through molecular analysis.</li>
+                  <li><strong>Creative AI:</strong> Generating art, music, and literature using generative models.</li>
+                  <li><strong>Scientific Research:</strong> Analyzing complex datasets in physics, biology, and astronomy.</li>
+                  <li><strong>Personalized Education:</strong> Adaptive learning systems that adjust to individual student needs.</li>
+              </ul>
+
+              <div style="background: rgba(56, 189, 248, 0.05); border-left: 3px solid var(--primary-blue); padding: 20px; border-radius: 0 12px 12px 0; margin-top: 20px;">
+                  <p style="margin: 0; line-height: 1.6;">
+                      <strong>Future Outlook:</strong> Deep learning continues to evolve rapidly, with advances in areas like multimodal learning (combining text, images, and audio), federated learning (privacy-preserving distributed training), and neuromorphic computing (brain-inspired hardware). The field is moving toward more efficient, interpretable, and generalizable AI systems.
+                  </p>
+              </div>
+          </div>
       </div>
 
       <div id="genai" class="content-page">
