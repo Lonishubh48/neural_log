@@ -310,7 +310,71 @@
               <h3>MCP Workflow</h3>
               <div id="mcp-workflow-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-top: 20px;">
                   </div>
-          </section>          
+          </section>
+
+          <section>
+              <h3>Detailed MCP Communication Flow</h3>
+              <p>The Model Context Protocol uses a structured communication flow that enables seamless interaction between AI models and external tools. Here's how the communication works in detail:</p>
+
+              <div style="background: rgba(56, 189, 248, 0.05); border-left: 3px solid var(--primary-blue); padding: 20px; border-radius: 0 12px 12px 0; margin: 20px 0;">
+                  <h4 style="color: var(--primary-blue); margin-top: 0;">🔄 Transport Layer: JSON-RPC 2.0 Protocol</h4>
+                  <p style="margin: 0; line-height: 1.6;">
+                      All communication between MCP clients and servers happens over the <strong>JSON-RPC 2.0 protocol</strong>. This standardized format ensures reliable, bidirectional messaging with built-in error handling and request/response correlation.
+                  </p>
+              </div>
+
+              <h4>Step-by-Step Communication Process:</h4>
+              <ol style="line-height: 1.8; margin-bottom: 20px;">
+                  <li><strong>Connection Establishment:</strong> The MCP client initiates a connection with MCP servers using JSON-RPC over supported transports (stdio, HTTP, WebSocket).</li>
+                  <li><strong>Capability Discovery:</strong> Client sends an <code>initialize</code> request to discover server capabilities, tools, and resources available.</li>
+                  <li><strong>Tool Execution:</strong> When the AI model needs external data, the client sends a <code>tools/call</code> request with parameters in JSON-RPC format.</li>
+                  <li><strong>Resource Access:</strong> For file or data access, the client uses <code>resources/read</code> or <code>resources/list</code> requests.</li>
+                  <li><strong>Response Handling:</strong> Server responds with structured JSON-RPC messages containing results or error information.</li>
+                  <li><strong>Streaming Support:</strong> For long-running operations, servers can send progress notifications using JSON-RPC notifications.</li>
+              </ol>
+
+              <h4>JSON-RPC Message Structure:</h4>
+              <div style="background: var(--code-bg); padding: 15px; border-radius: 8px; margin: 15px 0; font-family: 'Courier New', monospace; font-size: 0.9rem;">
+                  <strong>Request:</strong><br>
+                  <code>{<br>
+                  &nbsp;&nbsp;"jsonrpc": "2.0",<br>
+                  &nbsp;&nbsp;"id": 1,<br>
+                  &nbsp;&nbsp;"method": "tools/call",<br>
+                  &nbsp;&nbsp;"params": {<br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;"name": "search_database",<br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;"arguments": {"query": "user_data"}<br>
+                  &nbsp;&nbsp;}<br>
+                  }</code><br><br>
+                  <strong>Response:</strong><br>
+                  <code>{<br>
+                  &nbsp;&nbsp;"jsonrpc": "2.0",<br>
+                  &nbsp;&nbsp;"id": 1,<br>
+                  &nbsp;&nbsp;"result": {"data": [...]}<br>
+                  }</code>
+              </div>
+
+              <div style="text-align: center; margin: 30px 0;">
+                  <div style="background: var(--card-bg); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); display: inline-block;">
+                      <img src="MCP workflow.png" alt="MCP Communication Workflow" style="max-width: 100%; height: auto;">
+                      <p style="margin: 10px 0 0 0; font-size: 0.9rem;">Detailed flow showing JSON-RPC communication between MCP client and servers</p>
+                  </div>
+              </div>
+
+              <h4>Key Communication Features:</h4>
+              <ul style="line-height: 1.8;">
+                  <li><strong>Bidirectional:</strong> Both client and server can initiate requests and send notifications.</li>
+                  <li><strong>Asynchronous:</strong> Supports concurrent operations and streaming responses.</li>
+                  <li><strong>Type-Safe:</strong> JSON-RPC schema ensures structured data exchange.</li>
+                  <li><strong>Error Handling:</strong> Standardized error codes and messages for robust communication.</li>
+                  <li><strong>Transport Agnostic:</strong> Works over various protocols (stdio for local, HTTP/WebSocket for remote).</li>
+              </ul>
+
+              <div style="background: rgba(56, 189, 248, 0.05); border-left: 3px solid var(--primary-blue); padding: 20px; border-radius: 0 12px 12px 0; margin-top: 20px;">
+                  <p style="margin: 0; line-height: 1.6;">
+                      <strong>Security Note:</strong> MCP communication includes built-in security measures like request validation, rate limiting, and secure transport options. The protocol ensures that AI models can safely access external resources without compromising system security.
+                  </p>
+              </div>
+          </section>
 
           <section>
               <h3>When to use?</h3>
