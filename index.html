@@ -82,7 +82,24 @@
       filter: drop-shadow(0 0 15px #fff);
     }
 
-    .controls { position: fixed; top: 20px; left: 20px; z-index: 2000; display: flex; gap: 10px; }
+    .controls { position: fixed; top: 20px; left: 20px; z-index: 2000; display: flex; gap: 10px; align-items: center; }
+
+    #theme-btn { 
+      position: fixed; 
+      bottom: 20px; 
+      right: 20px; 
+      background: var(--card-bg); 
+      border: 1px solid var(--primary-blue); 
+      color: var(--text-main); 
+      padding: 10px 18px; 
+      border-radius: 8px; 
+      cursor: none; 
+      backdrop-filter: blur(10px); 
+      font-weight: 600; 
+      font-size: 0.8rem; 
+      letter-spacing: 1px; 
+      z-index: 2000; 
+    }
 
     button {
       background: var(--card-bg);
@@ -146,6 +163,40 @@
     input[type="email"] { padding: 12px; border-radius: 6px; border: 1px solid var(--primary-blue); background: transparent; color: var(--text-main); width: 260px; margin-right: 10px; }
 
     @media (max-width: 768px) { .controls { top: 10px; left: 10px; } }
+
+    .tab-nav { display: flex; gap: 10px; margin: 20px 0; border-bottom: 1px solid var(--border-color); }
+    .tab-btn { background: none; border: none; color: var(--text-main); padding: 10px 20px; cursor: none; border-radius: 8px 8px 0 0; transition: 0.3s; }
+    .tab-btn:hover { background: rgba(56, 189, 248, 0.1); }
+    .tab-btn.active { background: var(--primary-blue); color: #000; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    #search-input { 
+      padding: 10px 15px; 
+      border-radius: 25px; 
+      border: 2px solid var(--primary-blue); 
+      background: var(--card-bg); 
+      color: var(--text-main); 
+      width: 150px; 
+      margin-left: 15px;
+      font-size: 14px;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+    #search-input:focus { 
+      border-color: var(--primary-blue); 
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+      width: 150px;
+    }
+    #search-input::placeholder { color: rgba(255,255,255,0.6); }
+
+    .no-results { 
+      text-align: center; 
+      padding: 50px; 
+      color: var(--text-main); 
+      opacity: 0.7; 
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -163,16 +214,22 @@
 
   <div class="controls">
     <button onclick="toggleSidebar()">☰ MENU</button>
-    <button onclick="toggleTheme()">🌓 MODE</button>
+    <input type="text" id="search-input" placeholder="Search sections..." oninput="filterNav()">
   </div>
 
+  <button id="theme-btn" onclick="toggleTheme()">🌓 MODE</button>
+
   <nav id="sidebar">
-    <h2 style="letter-spacing: 2px;">NEURALLOG</h2>
-    <div class="nav-item active-nav-item" onclick="selectContent('home', this)">🏠 Home / Dashboard</div>
+    <h2 style="letter-spacing: 2px;">NEURALLOGs</h2>
+    <div class="nav-item active-nav-item" onclick="selectContent('home', this)"> Home / Dashboard</div>
     <div class="nav-item" onclick="selectContent('mcp', this)">Model Context Protocol</div>
     <div class="nav-item" onclick="selectContent('cv', this)">Classical CV</div>
+    <div class="nav-item" onclick="selectContent('neural', this)">Neural Networks</div>
+    <div class="nav-item" onclick="selectContent('deep', this)">Deep Learning</div>
+    <div class="nav-item" onclick="selectContent('genai', this)">Generative AI</div>
     <div class="nav-item" onclick="selectContent('about', this)">About</div>
     <div class="nav-item" onclick="selectContent('projects', this)">Projects</div>
+    <div id="no-results" class="no-results">No sections found matching your search.</div>
   </nav>
 
   <main>
@@ -257,9 +314,79 @@
 
       <div id="cv" class="content-page">
           <h1 id="cv-title"></h1>
-          <p id="cv-description"></p>
-          <pre><code id="cv-code"></code></pre>
-          <div style="height: 800px;"></div>
+          <div class="tab-nav">
+              <button class="tab-btn active" onclick="showTab('cv', 'basics')">Basics</button>
+              <button class="tab-btn" onclick="showTab('cv', 'edge')">Edge Detection</button>
+              <button class="tab-btn" onclick="showTab('cv', 'filtering')">Filtering</button>
+          </div>
+          <div id="cv-basics" class="tab-content active">
+              <p>Computer vision is a field of AI that trains computers to interpret and understand visual information from the world. Classical computer vision relies on traditional algorithms and mathematical operations rather than deep learning.</p>
+              <h3>Key Concepts</h3>
+              <ul>
+                  <li><strong>Image Processing</strong>: Manipulating images using mathematical operations</li>
+                  <li><strong>Feature Extraction</strong>: Identifying important characteristics in images</li>
+                  <li><strong>Pattern Recognition</strong>: Classifying objects based on learned patterns</li>
+              </ul>
+          </div>
+          <div id="cv-edge" class="tab-content">
+              <h3>Edge Detection Techniques</h3>
+              <p>Edge detection identifies boundaries between different regions in an image.</p>
+              <h4>Sobel Operator</h4>
+              <pre><code>// Sobel edge detection
+void sobelEdgeDetection(Image& input, Image& output) {
+    // Apply horizontal and vertical gradients
+    // Combine to find edges
+}</code></pre>
+              <h4>Canny Edge Detector</h4>
+              <p>A multi-stage algorithm that produces optimal edge detection.</p>
+          </div>
+          <div id="cv-filtering" class="tab-content">
+              <h3>Image Filtering</h3>
+              <p>Filtering modifies images using convolution operations.</p>
+              <h4>Gaussian Blur</h4>
+              <pre><code>// Gaussian blur filter
+void gaussianBlur(Image& input, Image& output, float sigma) {
+    // Create Gaussian kernel
+    // Convolve with image
+}</code></pre>
+              <h4>Median Filter</h4>
+              <p>Effective for removing salt-and-pepper noise.</p>
+          </div>
+      </div>
+
+      <div id="neural" class="content-page">
+          <h1 id="neural-title">Neural Networks</h1>
+          <p>Neural networks are computing systems inspired by biological neural networks. They form the foundation of deep learning and modern AI.</p>
+          <div class="tab-nav">
+              <button class="tab-btn active" onclick="showTab('neural', 'basics')">Basics</button>
+              <button class="tab-btn" onclick="showTab('neural', 'perceptron')">Perceptron</button>
+              <button class="tab-btn" onclick="showTab('neural', 'backprop')">Backpropagation</button>
+          </div>
+          <div id="neural-basics" class="tab-content active">
+              <h3>What are Neural Networks?</h3>
+              <p>Neural networks consist of layers of interconnected nodes (neurons) that process information using weighted connections and activation functions.</p>
+          </div>
+          <div id="neural-perceptron" class="tab-content">
+              <h3>The Perceptron</h3>
+              <p>The basic building block of neural networks, invented by Frank Rosenblatt in 1957.</p>
+              <pre><code>output = activation(sum(weights * inputs) + bias)</code></pre>
+          </div>
+          <div id="neural-backprop" class="tab-content">
+              <h3>Backpropagation</h3>
+              <p>The algorithm used to train neural networks by propagating errors backward through the network.</p>
+          </div>
+      </div>
+
+      <div id="deep" class="content-page">
+          <h1 id="deep-title">Deep Learning</h1>
+          <p>Deep learning uses multi-layered neural networks to solve complex problems in vision, language, and decision making.</p>
+          <p>Coming soon: Convolutional Neural Networks, Recurrent Neural Networks, Transformers...</p>
+      </div>
+
+      <div id="genai" class="content-page">
+          <h1 id="genai-title">Generative AI</h1>
+          <p>Generative AI creates new content like text, images, music, and code using machine learning models.</p>
+          <p>Coming soon: GANs, Diffusion Models, Large Language Models...</p>
       </div>
 
       <div id="about" class="content-page">
@@ -290,19 +417,24 @@
           <p>Here are some of the projects I've worked on, showcasing my skills in AI engineering and development.</p>
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 30px;">
               <div style="background: var(--card-bg); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color);">
-                  <h3 style="color: var(--primary-blue);">MCP Calculator Server</h3>
-                  <p>A lightweight MCP server implementation demonstrating how AI models can access external tools for calculations. Built with Python and FastMCP.</p>
-                  <a href="https://github.com/Lonishubh48/mcp-calculator" style="color: var(--primary-blue); font-weight: bold;">View on GitHub →</a>
+                  <h3 style="color: var(--primary-blue);">Facial Emotion Detection using CNN</h3>
+                  <p>Deep learning project for detecting human emotions from facial expressions using Convolutional Neural Networks (CNN). Implements real-time emotion recognition with high accuracy.</p>
+                  <a href="https://github.com/Lonishubh48/Facial-emotion-detection-using-CNN" style="color: var(--primary-blue); font-weight: bold;">View on GitHub →</a>
               </div>
               <div style="background: var(--card-bg); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color);">
-                  <h3 style="color: var(--primary-blue);">Classical Computer Vision Toolkit</h3>
-                  <p>A collection of traditional image processing algorithms including edge detection, filtering, and feature extraction. Implemented in C++ for performance.</p>
-                  <a href="https://github.com/Lonishubh48/classical-cv" style="color: var(--primary-blue); font-weight: bold;">View on GitHub →</a>
+                  <h3 style="color: var(--primary-blue);">Wildlife Conservation Using YOLOv8 with LLMs</h3>
+                  <p>AI-powered wildlife monitoring system combining YOLOv8 object detection with Large Language Models for automated conservation efforts and species identification.</p>
+                  <a href="https://github.com/Lonishubh48/Wildlife-Conservation-Using-YOLOv8-with-LLMs" style="color: var(--primary-blue); font-weight: bold;">View on GitHub →</a>
               </div>
               <div style="background: var(--card-bg); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color);">
-                  <h3 style="color: var(--primary-blue);">NeuralLog Website</h3>
-                  <p>This interactive portfolio website built with vanilla HTML, CSS, and JavaScript, featuring dynamic content loading and custom animations.</p>
-                  <a href="https://github.com/Lonishubh48/neural-log" style="color: var(--primary-blue); font-weight: bold;">View on GitHub →</a>
+                  <h3 style="color: var(--primary-blue);">Simple Chat Bot</h3>
+                  <p>A conversational AI chatbot built with natural language processing capabilities. Features intent recognition, context awareness, and extensible dialogue management.</p>
+                  <a href="https://github.com/Lonishubh48/Simple-Chat-Bot" style="color: var(--primary-blue); font-weight: bold;">View on GitHub →</a>
+              </div>
+              <div style="background: var(--card-bg); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color);">
+                  <h3 style="color: var(--primary-blue);">LangGraph</h3>
+                  <p>A framework for building complex language model applications with graph-based workflows. Enables creation of multi-agent systems and sophisticated AI pipelines.</p>
+                  <a href="https://github.com/Lonishubh48/LangGraph" style="color: var(--primary-blue); font-weight: bold;">View on GitHub →</a>
               </div>
           </div>
       </div>
@@ -355,9 +487,19 @@
         },
 
         cv: { 
-            title: "Classical CV",
-            description: "Traditional image processing using mathematical operations without deep learning.",
-            code: "// detectEdges implementation\nvoid detectEdges(Image& input) { ... }"
+            title: "Classical Computer Vision"
+        },
+
+        neural: {
+            title: "Neural Networks"
+        },
+
+        deep: {
+            title: "Deep Learning"
+        },
+
+        genai: {
+            title: "Generative AI"
         },
 
         about: {
@@ -500,6 +642,43 @@
       ringBar.style.strokeDashoffset = offset;
       progressText.innerText = Math.round(scrolled * 100) + "%";
     };
+
+    // Tab functionality
+    function showTab(section, tabId) {
+      const sectionEl = document.getElementById(section);
+      const tabBtns = sectionEl.querySelectorAll('.tab-btn');
+      const tabContents = sectionEl.querySelectorAll('.tab-content');
+      
+      tabBtns.forEach(btn => btn.classList.remove('active'));
+      tabContents.forEach(content => content.classList.remove('active'));
+      
+      event.target.classList.add('active');
+      document.getElementById(`${section}-${tabId}`).classList.add('active');
+    }
+
+    // Search functionality
+    function filterNav() {
+      const searchTerm = document.getElementById('search-input').value.toLowerCase();
+      const navItems = document.querySelectorAll('.nav-item');
+      const noResults = document.getElementById('no-results');
+      let visibleCount = 0;
+      
+      navItems.forEach(item => {
+        const text = item.textContent.toLowerCase();
+        if (text.includes(searchTerm)) {
+          item.style.display = 'block';
+          visibleCount++;
+        } else {
+          item.style.display = 'none';
+        }
+      });
+      
+      if (visibleCount === 0 && searchTerm !== '') {
+        noResults.style.display = 'block';
+      } else {
+        noResults.style.display = 'none';
+      }
+    }
   </script>
 </body>
 </html>
