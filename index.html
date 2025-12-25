@@ -282,7 +282,7 @@
       text-align: center; 
       padding: 50px; 
       color: var(--text-main); 
-      opacity: 0.7; 
+      opacity: 1.0; 
       display: none;
     }
     .video-bg {
@@ -304,7 +304,7 @@
     inset: 0;
     background: linear-gradient(
         rgba(2, 14, 23, 0.7),
-        rgba(96, 137, 220, 0.393)
+        rgba(96, 137, 220, 0.063)
     );
     z-index: 1;
     }
@@ -387,6 +387,9 @@
               <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 35px;">
                   <span style="background: rgba(56, 189, 248, 0.1); color: var(--primary-blue); padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; border: 1px solid rgba(56, 189, 248, 0.3);">Machine Learning</span>
                   <span style="background: rgba(56, 189, 248, 0.1); color: var(--primary-blue); padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; border: 1px solid rgba(56, 189, 248, 0.3);">Computer Vision</span>
+                  <span style="background: rgba(56, 189, 248, 0.1); color: var(--primary-blue); padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; border: 1px solid rgba(56, 189, 248, 0.3);">Deep Learning</span>
+                  <span style="background: rgba(56, 189, 248, 0.1); color: var(--primary-blue); padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; border: 1px solid rgba(56, 189, 248, 0.3);">Generative AI</span>
+                  <span style="background: rgba(56, 189, 248, 0.1); color: var(--primary-blue); padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; border: 1px solid rgba(56, 189, 248, 0.3);">Neural Networks</span>
                   <span style="background: rgba(56, 189, 248, 0.1); color: var(--primary-blue); padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; border: 1px solid rgba(56, 189, 248, 0.3);">Signal Processing</span>
                   <span style="background: rgba(56, 189, 248, 0.1); color: var(--primary-blue); padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; border: 1px solid rgba(56, 189, 248, 0.3);">Model Context Protocol</span>
               </div>
@@ -410,7 +413,7 @@
           
           <div class="newsletter">
               <h3>Join the Network</h3>
-              <form id="newsletter-form" style="display: flex; flex-direction: column; align-items: center; gap: 15px;">
+              <form id="newsletter-form" style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
                   <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap; justify-content: center;">
                       <input type="email" id="newsletter-email" placeholder="ai-engineer@domain.com" required style="padding: 12px; border-radius: 6px; border: 1px solid var(--primary-blue); background: transparent; color: var(--text-main); width: 260px; outline: none;">
                       <button type="submit" id="subscribe-btn" style="background: var(--primary-blue); color: #000; font-weight: bold; padding: 12px 20px; border-radius: 6px; border: none; cursor: pointer;">SUBSCRIBE</button>
@@ -496,7 +499,7 @@
               <p>The Model Context Protocol uses a structured communication flow that enables seamless interaction between AI models and external tools. Here's how the communication works in detail:</p>
 
               <div style="background: rgba(56, 189, 248, 0.05); border-left: 3px solid var(--primary-blue); padding: 20px; border-radius: 0 12px 12px 0; margin: 20px 0;">
-                  <h4 style="color: var(--primary-blue); margin-top: 0;">🔄 Transport Layer: JSON-RPC 2.0 Protocol</h4>
+                  <h4 style="color: var(--primary-blue); margin-top: 0;">Transport Layer: JSON-RPC 2.0 Protocol</h4>
                   <p style="margin: 0; line-height: 1.6;">
                       All communication between MCP clients and servers happens over the <strong>JSON-RPC 2.0 protocol</strong>. This standardized format ensures reliable, bidirectional messaging with built-in error handling and request/response correlation.
                   </p>
