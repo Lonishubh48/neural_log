@@ -353,16 +353,18 @@
   <main>
       <div id="home" class="content-page active">
           <div class="hero-text" style="text-align: center; padding-top: 50px;">
-              <h1 style="font-size: 4rem; background: linear-gradient(to bottom, #fff, var(--primary-blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">NeuralLog</h1>
+              <h1 style="font-size: 4rem; background: linear-gradient(to bottom, #fff, var(--primary-blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">NeuralLogs</h1>
               <p style="letter-spacing: 5px; color: var(--primary-blue); font-weight: bold;">TENSOR PULSE ACTIVATED</p>
               <p style="opacity: 0.7;">Scroll down to see the progress ring in action.</p>
           </div>
           <section style="text-align: center; margin: 50px 0;">
               <h2 style="color: var(--primary-blue); margin-bottom: 20px;">Hi, I'm Shubham  Loni, AI Engineer & Developer</h2>
               <p style="max-width: 600px; margin: 0 auto; line-height: 1.6; opacity: 0.9;">
-                  Passionate about building intelligent systems and exploring the frontiers of AI. 
-                  I specialize in machine learning, computer vision, signal processing and creating seamless integrations between AI models and real-world applications.
-                  Welcome to my digital space where I share insights on cutting-edge technologies like Model Context Protocol and classical computer vision techniques.
+                  I work on designing intelligent systems that bridge theory and practice across machine
+                     learning, computer vision and signal processing. My experience spans building end-to-end
+                     pipelines, optimizing models for real-world constraints, and developing interpretable
+                     solutions using both classical and modern AI techniques. This portfolio highlights my
+                     technical explorations and applied research.
               </p>
           </section>
           
@@ -411,7 +413,14 @@
               </div>
           </section>
           
-          <div class="newsletter">
+          <div class="newsletter"style="
+                    max-width: 480px;
+                    margin: 50px auto;
+                    padding: 30px 25px;
+                    border: 1px solid rgba(0,0,0,0.2);
+                    border-radius: 12px;
+                    text-align: center;
+                ">
               <h3>Join the Network</h3>
               <form id="newsletter-form" style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
                   <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap; justify-content: center;">
@@ -576,9 +585,9 @@
           </div>
           <div id="cv-basics" class="tab-content active">
               <h3>What is Computer Vision?</h3>
-              <p>Computer vision is a field of artificial intelligence that enables machines to interpret, analyze, and pull meaningful data from images and videos, replicating human sight and cognitive abilities. While modern computer vision heavily relies on deep learning and neural networks, classical computer vision uses traditional algorithms and mathematical operations.</p>
+              <p>Computer vision is a field of artificial intelligence that enables machines to interpret, analyze, and helps to pull meaningful data from the images and videos, replicating human sight and cognitive abilities. While modern computer vision heavily relies on deep learning and neural networks, classical computer vision uses traditional algorithms and mathematical operations to extract features.</p>
 
-              <h3>How Computer Vision Works</h3>
+              <h3>How Computer Vision Works ?</h3>
               <h4>Core Steps in Image Analysis</h4>
               <ol style="line-height: 1.8; margin-bottom: 20px;">
                   <li><strong>Capture the image:</strong> Devices like cameras, scanners, or sensors record visual data to be analyzed by algorithms.</li>
@@ -660,26 +669,185 @@ void gaussianBlur(Image& input, Image& output, float sigma) {
 
       <div id="neural" class="content-page">
           <h1 id="neural-title">Neural Networks</h1>
-          <p>Neural networks are computing systems inspired by biological neural networks. They form the foundation of deep learning and modern AI.</p>
+          <p>Neural networks are the building blocks of modern AI. Understanding the mathematical mechanics of a single neuron is the first step toward mastering Deep Learning.</p>
+        
           <div class="tab-nav">
-              <button class="tab-btn active" onclick="showTab('neural', 'basics')">Basics</button>
-              <button class="tab-btn" onclick="showTab('neural', 'perceptron')">Perceptron</button>
-              <button class="tab-btn" onclick="showTab('neural', 'backprop')">Backpropagation</button>
+              <button class="tab-btn active" onclick="showTab('neural', 'basics')">Neuron</button>
+              <button class="tab-btn" onclick="showTab('neural', 'activation')">Activation Functions</button>
+              <button class="tab-btn" onclick="showTab('neural', 'relu')">ReLU Deep Dive</button>
           </div>
+
           <div id="neural-basics" class="tab-content active">
-              <h3>What are Neural Networks?</h3>
-              <p>Neural networks consist of layers of interconnected nodes (neurons) that process information using weighted connections and activation functions.</p>
+              <h3>Mathematical Working of a Single Neuron</h3>
+              <p>A neuron takes multiple inputs, computes a weighted sum by applying weights and a bias, and passes the result through an activation function to produce the final output, as demonstrated in the video.</p>
+            
+              <div class="video-container" style="margin: 20px 0; border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; background: #000; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                  <video width="100%" controls poster="neuron-thumbnail.jpg">
+                      <source src="single_neuron_math.mp4" type="video/mp4">
+                      Your browser does not support the video tag.
+                  </video>
+              </div>
+              <p>In the video, I consider a single neuron that takes four inputs (<em>x₀, x₁, x₂, x₃</em>). These inputs represent the data given to the model, such as images, text, or audio. Each input is associated with a weight (<em>w₀, w₁, w₂, w₃</em>), which tells the neuron how important that input is.</p>
+
+              <p>The neuron multiplies each input by its corresponding weight, adds all these values together, 
+                 and then adds a bias term (<em>b</em>). Since we are working with only one neuron, there is only one bias.There is only one bias because the bias is associated with the neuron itself, 
+                 not with individual inputs. Its role is to shift the neuron’s output and allow the model to fit the data more flexibly. 
+                 Multiplying an input by its weight means that only a certain portion of the input is considered.</p>
+
+              <p>The concepts of weights and bias can be thought of as <em>knobs</em> that we tune to fit the model to the data. 
+                 During training, the model automatically adjusts these values so that the neuron produces better outputs and 
+                 reduces the overall error. Both the weights and the bias influence the neuron’s output, each in its own way</p>
+
+            
+              <div class="math-card" style="background: var(--code-bg); padding: 25px; border-radius: 12px; border: 1px solid var(--border-color); margin-top: 20px;">
+                  <h4 style="color: var(--primary-blue); margin-top: 0;">The Linear Equation</h4>
+                  <code style="font-size: 1.2rem; display: block; margin-bottom: 10px;">z = ∑(wᵢxᵢ) + b </code>
+                  <p style="font-size: 0.9rem; color: #94a3b8;">Here, <strong>wᵢ</strong> denotes the weight associated with each input,<strong>xᵢ</strong> represents the input features, and <strong>b</strong> is the bias term that shifts the activation threshold.</p>
+
+                  <hr style="border: none; border-top: 1px solid var(--border-color); margin: 15px 0;">
+                  <code style="font-size: 1.1rem; display: block; margin-bottom: 8px;"> y = mx + c </code>
+                  <p style="font-size: 0.9rem; color: #94a3b8;">
+                    We have already seen this equation in our high school mathematics. Using this familiar form,
+                    it becomes easy to understand how the weight <strong>w</strong> (like the slope <strong>m</strong>)
+                    controls the influence of the input, and how the bias <strong>b</strong> (like the intercept <strong>c</strong>)
+                    shifts the output up or down.</p>
+              </div>
+              <p>So far, the neuron has only performed a linear operation. The output <em>z</em> is simply a weighted sum of inputs plus a bias.</p>
+              <p>If we use only this linear operation, stacking multiple neurons or layers would still result in a linear model. Such a model would not be able to learn complex patterns present in real-world data.</p>
+              <p>To overcome this limitation, we apply an <strong>activation function</strong> to the linear output <em>z</em>. The activation function introduces non-linearity and determines whether & how strongly a neuron should activate(Fire).</p>
+
+
+
           </div>
-          <div id="neural-perceptron" class="tab-content">
-              <h3>The Perceptron</h3>
-              <p>The basic building block of neural networks, invented by Frank Rosenblatt in 1957.</p>
-              <pre><code>output = activation(sum(weights * inputs) + bias)</code></pre>
+
+          <div id="neural-activation" class="tab-content">
+              <h3>Activation Functions</h3>
+              <p>An activation function is a mathematical function applied to the output of a neuron. 
+                 It introduces non-linearity into the network, enabling it to learn complex patterns and 
+                 non-linear mappings between inputs and outputs. Activation functions also enable the 
+                 training of deep networks, help keep neuron outputs within a certain range, and play a 
+                 crucial role in backpropagation by allowing gradients to flow through the network.</p>
+                 
+              <p>Mathematically, the final output of a neuron is obtained by applying an activation function
+                to the linear combination of inputs.</p>
+
+
+              <div class="math-card" style="background: var(--code-bg); padding: 25px; border-radius: 12px; border: 1px solid var(--border-color); margin-top: 20px;">
+                  <h4 style="color: var(--primary-blue); margin-top: 0;">Complete Neuron Function</h4>
+
+                  <code style="font-size: 1.2rem; display: block; margin-bottom: 10px;">
+                      a = f(z) = f(∑(wᵢxᵢ) + b)
+                  </code>
+
+                  <p style="font-size: 0.9rem; color: #94a3b8;">
+                      Here, <strong>f</strong> represents the activation function (such as ReLU, Sigmoid, or Tanh),
+                      which transforms the linear output into a non-linear response.
+                  </p>
+              </div>
+                
+            
+              <p>The video below demonstrates how by applying the ReLU activation function allows a neural network
+                 to learn and approximate the non-linear behavior of a sinusoidal (sine) signal.</p>
+
+            
+              <div class="video-container" style="margin: 20px 0; border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; background: #000;">
+                  <video width="100%" controls>
+                      <source src="relu_activation.mp4" type="video/mp4">
+                      Your browser does not support the video tag.
+                  </video>
+              </div>
+              <h4>Desirable Features of an Activation Function</h4>
+              <ul>
+                  <li>
+                      <strong>Differentiable:</strong>  
+                      The activation function should be differentiable so that gradients can be computed during backpropagation for efficient learning.
+                  </li>
+                  <li>
+                      <strong>Zero-Centered and Computationally Efficient:</strong>  
+                      A zero-centered output helps in faster convergence during training, and lower computational cost improves overall training efficiency.
+                  </li>
+                  <li>
+                      <strong>Helps Address the Vanishing Gradient Problem:</strong>  
+                      A good activation function should maintain meaningful gradients to allow effective training of deep neural networks.
+                  </li>
+              </ul>
+
+              <h4>Common Types of Activation Functions available</h4>
+              <ul>
+                  <li><strong>Linear Activation Function</strong></li>
+                  <li><strong>Binary Step Function</strong></li>
+                  <li><strong>Sigmoid (Logistic) Function</strong></li>
+                  <li><strong>Tanh (Hyperbolic Tangent)</strong></li>
+                  <li><strong>ReLU (Rectified Linear Unit)</strong></li>
+                  <li><strong>Leaky ReLU</strong></li>
+                  <li><strong>Parametric ReLU (PReLU)</strong></li>
+                  <li><strong>ELU (Exponential Linear Unit)</strong></li>
+                  <li><strong>Swish</strong></li>
+                  <li><strong>GELU (Gaussian Error Linear Unit)</strong></li>
+                  <li><strong>Softmax</strong></li>
+              </ul>
           </div>
-          <div id="neural-backprop" class="tab-content">
-              <h3>Backpropagation</h3>
-              <p>The algorithm used to train neural networks by propagating errors backward through the network.</p>
+
+          <div id="neural-relu" class="tab-content">
+              <h3>ReLU (Rectified Linear Unit)</h3>
+              <p>ReLU (Rectified Linear Unit) is one of the most widely used activation functions in modern
+                 neural networks. It introduces non-linearity by allowing positive input values to pass
+                 through unchanged while setting all negative values to zero.</p>
+                
+            <div class="math-card" style="background: var(--code-bg); padding: 25px; border-radius: 12px; border: 1px solid var(--border-color); margin-top: 20px;">
+                <h4 style="color: var(--primary-blue); margin-top: 0;">Mathematical Definition</h4>
+
+                <code style="font-size: 1.2rem; display: block; margin-bottom: 10px;">
+                    f(x) = max(0, x)
+                </code>
+
+                <p style="font-size: 0.9rem; color: #94a3b8;">
+                    This means that if the input value is positive, it is passed directly to the output.
+                    If the input is negative, the output becomes zero.
+                </p>
+            </div>
+
+
+              <div class="video-container" style="margin: 20px 0; border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; background: #000;">
+                  <video width="100%" controls>
+                      <source src="activation_functions.mp4" type="video/mp4">
+                      Your browser does not support the video tag.
+                  </video>
+              </div>
+              <p> The video above demonstrates how ReLU helps neural networks capture non-linear patterns
+                   by selectively activating neurons only when meaningful signals are present.</p>
+                
+              <h4>Why ReLU is Popular</h4>
+              <ul>
+                <li><strong>Computationally Efficient:</strong> Uses simple thresholding, making it fast to compute.</li>
+                <li><strong>Helps Reduce Vanishing Gradients:</strong> Maintains stronger gradients for positive inputs.</li>
+                <li><strong>Sparse Activation:</strong> Many neurons output zero, making the network more efficient.</li>
+              </ul>
+
+              <h4>Limitations of ReLU</h4>
+                <ul>
+                    <li><strong>Dying ReLU Problem:</strong> Neurons can become inactive if they consistently receive negative inputs.</li>
+                    <li><strong>Unbounded Output:</strong> Can lead to exploding activations in some cases.</li>
+                </ul>
+
+              <div class="code-block" style="background: var(--code-bg); padding: 20px; border-radius: 8px;">
+                <pre><code># ReLU implementation in PyTorch
+                import torch
+                import torch.nn.functional as F
+
+                # Example input tensor
+                x = torch.tensor([-2.0, -1.0, 0.0, 1.5, 3.0])
+
+                # Apply ReLU activation
+                y = F.relu(x)
+
+                print(y)</code></pre>
+              </div>
+
+              
           </div>
       </div>
+ 
 
       <div id="deep" class="content-page">
           <h1 id="deep-title">Deep Learning</h1>
